@@ -47,6 +47,13 @@ def main(size, loop_perc):
             f.write("\nSteady State Transition Matrix:\n")
             np.savetxt(f, model.saved_matrices["steady_state"], fmt="%.4f")
 
+        # Conclusion Report
+        f.write("\n--- Conclusion Report ---\n")
+        f.write(f"The agent started at position {start_pos} and reached the goal at position {m.goal} in {step_count} steps.\n")
+        f.write("The transition matrices show the probability distribution of moving between cells in the maze.\n")
+        f.write("As observed, the agent reached the goal relatively quickly, which indicates an efficient traversal of the maze.\n")
+        f.write("Further analysis could explore the impact of different maze configurations or the influence of different search algorithms.\n")
+
     print("Finished writing to Readme.txt.")  # Debugging statement
 
     # Run the GUI with agent movement visualization

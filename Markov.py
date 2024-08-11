@@ -41,7 +41,7 @@ class MarkovModel:
                             matrix[cell][next_cell] = 1 / possible_moves
         return matrix
 
-    def print_transition_matrix(self, step_count):
+    def save_matrix(self, step_count):
         size = self.maze.rows * self.maze.cols
         matrix = np.zeros((size, size))
         for (row, col), transitions in self.transition_matrix.items():
@@ -57,9 +57,10 @@ class MarkovModel:
         path = [current_position]
         for step in range(steps):
             if step % 10 == 0 or step == steps - 1:
-                self.print_transition_matrix(step + 1)
+                self.save_matrix(step + 1)
             if current_position == self.maze.goal:
                 print(f"Goal reached at step {step + 1}")
+                self.save_matrix(step + 1)  # Ensure matrix is saved when the goal is reached
                 paths.append(path)
                 return current_position, step + 1, paths
             next_positions = list(self.transition_matrix[current_position].keys())
@@ -69,6 +70,6 @@ class MarkovModel:
             current_position = next_position
             if step % 10 == 0 and len(paths) < 3:
                 paths.append(path.copy())
-        # Ensure the final matrix is saved
-        self.saved_matrices[steps] = self.saved_matrices[step + 1]
+        # Ensure the final matrix is saved even if the goal isn't reached
+        self.save_matrix(steps)
         return current_position, steps, paths
